@@ -204,33 +204,38 @@ module.exports = function(app, passport) {
 	app.post('/create-recipe', function (req, res, next) {
 
 
-		var body = req.body;
+		if (req.user) {
 
-		var newRecipe = new Recipe();
+			var body = req.body;
 
-		newRecipe.owner = req.user;
-		newRecipe.recipeTitle = body.recipeTitle;
+			var newRecipe = new Recipe();
 
-		newRecipe.date = new Date();
-		newRecipe.numLikes = 0;
+			newRecipe.owner = req.user;
+			newRecipe.recipeTitle = body.recipeTitle;
+
+			newRecipe.date = new Date();
+			newRecipe.numLikes = 0;
 
 
-		for(var key in req.body) {
-			if (key.substring(0,4) === "step") {
-				var order = parseInt(key.substring(4));
-				newRecipe.steps.push({order: parseInt(key.substring(4)), 
-					stepContent: body[key], 
-					picture: body["picture" + order], 
-					video: body["video" + order]
-				});
-			}
-		};
+			for(var key in req.body) {
+				if (key.substring(0,4) === "step") {
+					var order = parseInt(key.substring(4));
+					newRecipe.steps.push({order: parseInt(key.substring(4)), 
+						stepContent: body[key], 
+						picture: body["picture" + order], 
+						video: body["video" + order]
+					});
+				}
+			};
 
-		newRecipe.save(function (err, newRecipe) {
-			if (err) return console.log(err);
-			//return res.redirect('/');
-			return res.json(newRecipe);
-		});
+			newRecipe.save(function (err, newRecipe) {
+				if (err) return console.log(err);
+				//return res.redirect('/');
+				return res.json(newRecipe);
+			});
+		} else {
+			return res.json("Not login");
+		}
 	});
 
 	// GET /create-recipe
