@@ -140,6 +140,7 @@ module.exports = function(app, passport) {
 
 	// local -----------------------------------
     app.get('/unlink/local', function(req, res) {
+    	console.log(req.user);
         var user            = req.user;
         user.local.email    = undefined;
         user.local.password = undefined;
