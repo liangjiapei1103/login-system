@@ -270,24 +270,25 @@ module.exports = function(app, passport) {
 			});
 	});
 
-	// GET /usr/:usr
-	app.get('/usr/:usr', function (req, res, next) {
-		User.find({username: req.params.usr})
-			.exec(function (err, user) {
-				if (err) return next(err);
-				return res.json(user);
-			});
-	});
-
-	// // GET /usr/currentUser
-	// app.get('/usr/currentUser', isLoggedIn,  function (req, res, next) {
-	// 	var user            = req.user;
- //        user.local.email    = undefined;
- //        user.local.password = undefined;
- //        user.save(function(err) {
- //            res.redirect('/profile');
- //        });
+	// // GET /usr/:usr
+	// app.get('/usr/:usr', function (req, res, next) {
+	// 	User.find({username: req.params.usr})
+	// 		.exec(function (err, user) {
+	// 			if (err) return next(err);
+	// 			return res.json(user);
+	// 		});
 	// });
+
+	// GET /usr/currentUser
+	app.get('/usr/currentUser', isLoggedIn,  function (req, res, next) {
+		// var user            = req.user;
+  //       user.local.email    = undefined;
+  //       user.local.password = undefined;
+  //       user.save(function(err) {
+  //           res.redirect('/profile');
+  //       });
+		return res.json(req.user);
+	});
 
 	// POST /addToFavorite
 	app.post('/recipe/:id/addToFavorite', function (req, res, next) {
