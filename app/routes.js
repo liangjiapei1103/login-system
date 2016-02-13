@@ -140,7 +140,7 @@ module.exports = function(app, passport) {
 
 	// local -----------------------------------
     app.get('/unlink/local', function(req, res) {
-    	console.log(req.user);
+
         var user            = req.user;
         user.local.email    = undefined;
         user.local.password = undefined;
@@ -202,7 +202,7 @@ module.exports = function(app, passport) {
 	});
 
 	// POST /create-recipe/   
-	app.post('/create-recipe', function (req, res, next) {
+	app.post('/create-recipe', isLoggedIn, function (req, res, next) {
 
 
 		if (req.session.user) {
@@ -240,7 +240,7 @@ module.exports = function(app, passport) {
 	});
 
 	// GET /create-recipe
-	app.get('/create-recipe', function (req, res, next) {
+	app.get('/create-recipe', isLoggedIn, function (req, res, next) {
 		if (err) return console.log(err);
 		res.sendfile('views/create-recipe.html');
 	});
@@ -266,7 +266,7 @@ module.exports = function(app, passport) {
 	});
 
 	// GET /:usr/favorite
-	app.get('/favorite', function (req, res, next) {
+	app.get('/usr/favorite', function (req, res, next) {
 		User.find({username: req.params.usr})
 			.exec(function (err, user) {
 				if (err) return next(err);
@@ -284,7 +284,7 @@ module.exports = function(app, passport) {
 	});
 
 	// GET /usr/currentUser
-	app.get('/usr/currentUser', function (req, res, next) {
+	app.get('/usr/currentUser', isLoggedIn, function (req, res, next) {
 		return json(req.user);
 	});
 
