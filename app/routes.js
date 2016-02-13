@@ -181,6 +181,7 @@ module.exports = function(app, passport) {
 
 
 
+
     // GET /recipe?username= & title= & date = 
 	app.get('/recipe', function (req, res) {
 		var query = req.query;
@@ -237,7 +238,6 @@ module.exports = function(app, passport) {
 
 	// GET /create-recipe
 	app.get('/create-recipe', isLoggedIn, function (req, res, next) {
-		if (err) return console.log(err);
 		res.sendfile('views/create-recipe.html');
 	});
 
