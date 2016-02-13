@@ -279,15 +279,15 @@ module.exports = function(app, passport) {
 			});
 	});
 
-	// GET /usr/currentUser
-	app.get('/usr/currentUser', isLoggedIn,  function (req, res, next) {
-		var user            = req.user;
-        user.local.email    = undefined;
-        user.local.password = undefined;
-        user.save(function(err) {
-            res.redirect('/profile');
-        });
-	});
+	// // GET /usr/currentUser
+	// app.get('/usr/currentUser', isLoggedIn,  function (req, res, next) {
+	// 	var user            = req.user;
+ //        user.local.email    = undefined;
+ //        user.local.password = undefined;
+ //        user.save(function(err) {
+ //            res.redirect('/profile');
+ //        });
+	// });
 
 	// POST /addToFavorite
 	app.post('/recipe/:id/addToFavorite', function (req, res, next) {
