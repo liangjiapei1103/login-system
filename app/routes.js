@@ -1,4 +1,9 @@
 // app/routes
+
+var User = require('./models/user.js');
+var Recipe = require('./models/recipe.js');
+var Step = require('./models/step.js');
+
 module.exports = function(app, passport) {
 
 	// Home page (with login links) ==========================
@@ -173,6 +178,127 @@ module.exports = function(app, passport) {
     app.get('/usr/currentUser', function (req, res) {
     	return json(req.user);
     });
+
+
+
+
+
+
+    // GET /recipe?username= & title= & date = 
+	app.get('/recipe', function (req, res) {
+		var query = req.query;
+
+		if (query.username && query.title && query.date) {
+			var recipe = Recipe.findOne({
+				'username': query.username,
+				'title': query.title,
+				'data': query.date
+			});
+			res.json(recipe);
+		} else {
+			res.status(404).send();
+		}
+	});
+
+	// POST /create-recipe/   
+	app.post('/create-recipe', function (req, res, next) {
+
+
+		var body = req.body;
+
+		var newRecipe = new Recipe();
+
+		newRecipe.owner = req.user;
+		newRecipe.recipeTitle = body.recipeTitle;
+
+		newRecipe.date = new Date();
+		newRecipe.numLikes = 0;
+
+
+		for(var key in req.body) {
+			if (key.substring(0,4) === "step") {
+				var order = parseInt(key.substring(4));
+				newRecipe.steps.push({order: parseInt(key.substring(4)), 
+					stepContent: body[key], 
+					picture: body["picture" + order], 
+					video: body["video" + order]
+				});
+			}
+		};
+
+		newRecipe.save(function (err, newRecipe) {
+			if (err) return console.log(err);
+			//return res.redirect('/');
+			return res.json(newRecipe);
+		});
+	});
+
+	// GET /create-recipe
+	app.get('/create-recipe', function (req, res, next) {
+		if (err) return console.log(err);
+		res.sendfile('views/create-recipe.html');
+	});
+
+
+	// GET /recipes
+	app.get('/recipes', function (req, res, next) {
+		
+		Recipe
+			.find({})
+			.exec(function (err, recipes) {
+				if (err) return console.log(err);
+				return res.json(recipes);
+			});
+	});
+
+	// GET /recipe
+	app.get('/recipe/:id', function (req, res, next) {
+		Recipe.findById({ _id: req.params.id }, function (err, recipe) {
+			if (err) return next(err);
+			res.json(recipe);
+		});
+	});
+
+	// GET /:usr/favorite
+	app.get('/favorite', function (req, res, next) {
+		User.find({username: req.params.usr})
+			.exec(function (err, user) {
+				if (err) return next(err);
+				return res.json(user.favorite);
+			});
+	});
+
+	// GET /usr/:usr
+	app.get('/usr/:usr', function (req, res, next) {
+		User.find({username: req.params.usr})
+			.exec(function (err, user) {
+				if (err) return next(err);
+				return res.json(user);
+			});
+	});
+
+	// GET /usr/currentUser
+	app.get('/usr/currentUser', function (req, res, next) {
+		return json(req.user);
+	});
+
+	// POST /addToFavorite
+	app.post('/recipe/:id/addToFavorite', function (req, res, next) {
+
+		// find current recipe 
+		Recipe.findById({ _id: req.params.id }, function (err, recipe) {
+			if (err) return next(err);
+
+			// find current User
+			User.find({username: req.params.usr})
+			.exec(function (err, user) {
+				if (err) return next(err);
+				user.favorite.push(recipe);
+			});
+
+			res.json(recipe);
+		});
+	});
 
 };    
 

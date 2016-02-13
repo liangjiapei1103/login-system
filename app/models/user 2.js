@@ -2,17 +2,19 @@
 
 //load the things we need
 var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
 var Recipe = require('./recipe.js');
+var bcrypt = require('bcrypt-nodejs');
 var Schema = mongoose.Schema;
 
 // define the schema for our user models
 var userSchema = Schema({
 
+	// local login info
 	local: {
 		email: String,
 		password: String
 	},
+	// facebook login info
 	facebook: {
 		id: String,
 		token: String,
@@ -22,34 +24,20 @@ var userSchema = Schema({
 		gender: String,
 		birthday: String
 	},
-	twitter: {
-		id: String,
-		token: String,
-		displayName: String,
-		username: String,
-		picture: String
-	}, 
-	google: {
-		id: String,
-		token: String,
-		email: String,
-		name: String
-	},
 	// user info
 	info: {
 		username: String,
 		gender: String,
 		picture: String,
 		// recipes object array
-		recipes: [Recipe],
+		recipes: [{type: Schema.Types.ObjectId, ref: 'Recipe'}],
 		// facorite recipes array
-		favorite: [Recipe],
+		favorite: [{type: Schema.Types.ObjectId, ref: 'Recipe'}],
 		// people who are following you
 		follower: [this],
 		// the people you are following
 		following: [this]
 	}
-
 
 });
 
