@@ -280,7 +280,7 @@ module.exports = function(app, passport) {
 	});
 
 	// GET /usr/currentUser
-	app.get('/usr/currentUser', isLoggedIn, function (req, res, next) {
+	app.get('/usr/currentUser', isLoggedIn,  function (req, res, next) {
 		var user            = req.user;
         user.local.email    = undefined;
         user.local.password = undefined;
