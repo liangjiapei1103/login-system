@@ -204,7 +204,7 @@ module.exports = function(app, passport) {
 	app.post('/create-recipe', function (req, res, next) {
 
 
-		if (req.user) {
+		if (req.session.user) {
 
 			var body = req.body;
 
