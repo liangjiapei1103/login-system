@@ -170,6 +170,10 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('usr/currentUser', function (req, res) {
+    	return json(req.user);
+    });
+
 };    
 
 // route middleware to make sure a user is logged in
