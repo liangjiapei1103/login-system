@@ -170,7 +170,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('usr/currentUser', function (req, res) {
+    app.get('/usr/currentUser', function (req, res) {
     	return json(req.user);
     });
 
