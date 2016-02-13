@@ -176,10 +176,6 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/usr/currentUser', isLoggedInfunction (req, res) {
-    	return json(req.user);
-    });
-
 
 
 
