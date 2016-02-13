@@ -176,7 +176,7 @@ module.exports = function(app, passport) {
         });
     });
 
-    app.get('/usr/currentUser', function (req, res) {
+    app.get('/usr/currentUser', isLoggedInfunction (req, res) {
     	return json(req.user);
     });
 
@@ -205,7 +205,7 @@ module.exports = function(app, passport) {
 	app.post('/create-recipe', isLoggedIn, function (req, res, next) {
 
 
-		if (req.session.user) {
+		if (req.user) {
 
 			var body = req.body;
 
