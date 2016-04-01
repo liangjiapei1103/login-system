@@ -1,0 +1,60 @@
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container" >
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">AngularJS Nice</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">
+                <img src="https://lh4.googleusercontent.com/-UVB87etSKfQ/Vu3-T3zT4oI/AAAAAAAAAC0/AsxEzaOwG0Mr6WYHCeNo5ljcOCK2ZS6xg/s50-no/3.png">
+                <!--AngularJS Nice-->
+            </a>
+        </div>
+        <div class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class="<%=locals.current_nav == 'home' ? 'active' : ''%>">
+                    <a href="/"><i class="fa fa-home"></i> main</a>
+                </li>
+                <li class="<%=locals.current_nav == 'about' ? 'active' : ''%>" >
+                    <a href="/about">about</a>
+                </li>
+                <%if(locals.isAuthorized){%>
+                <li class="<%=locals.current_nav == 'my_posts' ? 'active' : ''%>">
+                    <a href="/posts/me">me</a>
+                </li>
+                <li class="<%=locals.current_nav == 'add_post' ? 'active' : ''%>">
+                    <a href="/post/add"><i class="fa fa-plus"></i> post</a>
+                </li>
+                <%}%>
+            </ul>
+            <div class="navbar-form navbar-right">
+
+                <%if(locals.isAuthorized){
+                %>
+                <div class="btn-group">
+                    <a href="javascript:;" class="avatar dropdown-toggle" data-toggle="dropdown">
+                        <img id="header_avatar_img" src="<%=locals.user.avatar.path%>" alt="<%=locals.user%>" class="img-circle">
+                        <span id="header_user_name" class="avatar-text"><%=locals.user.name%></span>
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!--<li><a href="/">我的主页</a></li>-->
+                        <li><a href="/user/account/setting">setting</a></li>
+                        <li class="divider"></li>
+                        <li><a href="/logout">
+                            <i class="fa fa-power-off"></i> logout</a></li>
+                    </ul>
+                </div>
+
+                <%
+                }else{%>
+                <a href="/signin" class="btn btn-success <%=locals.current_nav == 'signin' ? 'hide' : ''%>">signin</a>
+                <a href="/signup" class="btn btn-success <%=locals.current_nav == 'signup' ? 'hide' : ''%>">signup</a>
+                <%}%>
+            </div>
+
+        </div>
+    </div>
+</div>

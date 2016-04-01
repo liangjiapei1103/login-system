@@ -1,0 +1,65 @@
+<div class="center-right-panel" ng-controller="home_ctrl">
+    <div class="center-panel">
+        <div class="post-list-panel">
+            <div class="panel-header">
+                <ul class="nav nav-tabs" role="tablist">
+                    <li class="<%=locals.currentMenu == 'home' ? 'active' : ''%>"><a href="/" role="tab" >tab</a></li>
+                    <li class="<%=locals.currentMenu == 'hots' ? 'active' : ''%>" class=""><a href="/hots">hots</a></li>
+                </ul>
+            
+            </div>
+            <ul class="post-list">
+                <%
+                if(posts && posts.length > 0){
+                for(var i = 0;i < posts.length;i++)
+                {
+                var post = posts[i];
+                %>
+                <li class="post-item">
+                    <div class="clearfix">
+                        <a href="javascript:;" class="avatar pull-left" title="<%-post.author.display_name%>">
+                            <img src="<%-post.author.avatar.path%>" alt="<%-post.author.display_name%>"
+                                 class="img-circle">
+                        </a>
+
+                        <div class="pull-left pad-left-40">
+                            <h3><a title="<%=post.title%>" href="/posts/<%=post.id%>"><%=post.title%></a></h3>
+                            <a title="<%=post.summary%>" href="/posts/<%=post.id%>" class="summary"><%=post.summary%></a>
+
+                            <div class="post-info">
+                                <span class="publish">publish date <%-post.publish_date%></span>
+    
+                                <span class="comment">view(<%-post.hits%>)</span>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </li>
+                <%
+                }
+                }%>
+
+            </ul>
+            <%-locals.pager%>
+        </div>
+        <%
+        if(!posts || posts.length == 0){
+        %>
+        <div class="empty-panel">empty</div>
+        <%
+        }
+        %>
+
+    </div>
+    <div class="right-panel">
+        <div class="input-group mar-bottom-20 mar-top-20">
+            <input class="form-control" nice-enter="js_search(input_keywords)" placeholder="search"
+                   ng-model="input_keywords"/>
+            <span class="input-group-btn">
+                <button class="btn btn-success" ng-click="js_search(input_keywords)" type="button">search</button>
+            </span>
+        </div>
+
+    </div>
+</div>
